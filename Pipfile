@@ -9,6 +9,7 @@ verify_ssl = true
 Flask = "*"
 rq = "*"
 cachetools = "*"
+flask-socketio = "*"
 
 [requires]
 python_version = "3.7"

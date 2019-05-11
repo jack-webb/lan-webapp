@@ -35,11 +35,95 @@
     </div>
   </section>
 
+  <section class="section">
+    <div class="container is-fluid">
+      <nav class="panel">
+        <p class="panel-heading">
+          Post a message
+        </p>
+        <div class="panel-block">
+
+          <form action="/status/post" method="post">
+
+            <div class="field">
+              <label class="label">Title</label>
+              <div class="control">
+                <input class="input" name="title" type="text" placeholder="Food">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Message</label>
+              <div class="control">
+                <input class="input" name="subtitle" type="text" placeholder="Pizza will arrive in 7min.">
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Type</label>
+              <div class="control">
+                <div class="select">
+                  <select name="css">
+                    <option value="is-info">Info</option>
+                    <option value="is-success">Success</option>
+                    <option value="is-warning">Warning</option>
+                    <option value="is-danger">Danger</option>
+                    <option value="is-light">Light</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="field has-addons">
+              <div class="control">
+                <button type="submit" class="button is-link">Post message</button>
+              </div>
+              <div class="control">
+                <input name="password" class="input" type="password" placeholder="Password">
+              </div>
+            </div>
+            
+          </form>
+
+        </div>
+      </nav>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-fluid">
+      <nav class="panel">
+        <p class="panel-heading">
+          Clear messages
+        </p>
+        <div class="panel-block">
+
+          <form action="/status/clear" method="post">
+
+            <div class="field has-addons">
+              <div class="control">
+                <button type="submit" class="button is-link">Clear all messages</button>
+              </div>
+              <div class="control">
+                <input name="password" class="input" type="password" placeholder="Password">
+              </div>
+            </div>
+            
+          </form>
+
+        </div>
+      </nav>
+    </div>
+  </section>
+
+
+
   <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
   <script src="https://unpkg.com/popper.js"></script>
   <script src="https://unpkg.com/tooltip.js"></script>
   <script src="js/tmpl.min.js"></script>
   <script src="js/toast.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
 
   <script type="text/javascript" src="js/main.js"></script>
 
