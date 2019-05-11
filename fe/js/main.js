@@ -7,52 +7,24 @@ window.onload = function() {
   var gameParent = document.getElementById("game-boxes");
   var statusParent = document.getElementById("status-messages");
 
-  fetch('/status')
-    .then(
-      function(response) {
-        if (response.status !== 200) { console.log('Looks like there was a problem. Status Code: ' + response.status); return; }
-        response.json().then(function(data) {
-          clearStatusMessages(statusParent)
-          buildStatusMessages(statusParent, data.status)
-        });
-      }
-    );
+  var socket = io.connect('http://' + document.domain + ':' + location.port);
 
-    fetch('/game')
-    .then(
-      function(response) {
-        if (response.status !== 200) { console.log('Looks like there was a problem. Status Code: ' + response.status); return; }
-        response.json().then(function(data) {
-          clearGameStatusBoxes(gameParent)
-          buildGameStatusBoxes(gameParent, data.games)
-        });
-      }
-    );
+  socket.on('server_info', function(data) {
+    clearGameStatusBoxes(gameParent)
+    buildGameStatusBoxes(gameParent, data)
+  });
 
-    (function(){
-    fetch('/status')
-    .then(
-      function(response) {
-        if (response.status !== 200) { console.log('Looks like there was a problem. Status Code: ' + response.status); return; }
-        response.json().then(function(data) {
-          clearStatusMessages(statusParent)
-          buildStatusMessages(statusParent, data.status)
-        });
-      }
-    )
+  socket.on('messages', function(data) {
+    clearStatusMessages(statusParent)
+    buildStatusMessages(statusParent, data)
+  });
 
-    fetch('/game')
-    .then(
-      function(response) {
-        if (response.status !== 200) { console.log('Looks like there was a problem. Status Code: ' + response.status); return; }
-        response.json().then(function(data) {
-          clearGameStatusBoxes(gameParent)
-          buildGameStatusBoxes(gameParent, data.games)
-        });
-      }
-    )
-    setTimeout(arguments.callee, 2000);
-})();
+  socket.on('message-notify', function(notification) {
+    var notification = new Notification(notification.title, {
+      "body": notification.subtitle
+    });
+  });
+
 }
 
 function buildGameStatusBoxes(parentNode, data) {
@@ -96,3 +68,6 @@ function setLightTheme() {
   document.getElementsByTagName("head").item(0).appendChild(newlink)
 }
 // [csgo, tf2, minecraft_survival, minecraft_creative, quake_live, factorio]
+
+// request permissions for notifications
+Notification.requestPermission();
