@@ -1,5 +1,7 @@
 #### Small Flask webapp for the LAN
 
+##### Pull requests welcome :)
+
 - Reads server info using node-gamedig (via bash) and exposes it to `/game`
 - Reads messages from a config file and exposes them to `/status`
 - Serves webapp that polls these API for updates
