@@ -1,6 +1,6 @@
-#### Small Flask webapp for the LAN
+## Small Flask webapp for the LAN
 
-##### Pull requests welcome :)
+#### Pull requests welcome :)
 
 Run with `pipenv install` then `pipenv run python -m app`
 
@@ -8,7 +8,7 @@ Run with `pipenv install` then `pipenv run python -m app`
 - Reads messages from a config file and exposes them to `/status`
 - Serves webapp that polls these API for updates
 
-The Frontend is mostly okay, but could use refactoring. Backend works (and is surprisingly reliable), but is messy and is still missing features.
+The Frontend is mostly okay, but could use refactoring. Backend works (and is surprisingly reliable), but is messy and is still missing features. Would like to move to websockets eventually with better server info caching.
 
 #### Desktop
 ![Desktop View](https://i.jaffa.pw/qemkRB7.png)
