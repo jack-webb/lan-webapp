@@ -10,12 +10,16 @@ import time
 from copy import deepcopy
 import os
 
+from game_server import GameServer
+
 game_cache = []
 messages_cache = None
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 messages_filename = os.path.join(os.path.dirname(__file__), "messages.json")
+
+server_workers = []
 
 with open('conf.json') as json_data_file:
     conf = json.load(json_data_file)
@@ -78,34 +82,30 @@ def clear_status_messages():
 @socketio.on('connect')
 def ws_connected():
     print('Client connected')
-    # send the initial data to the client
-    emit('server_info', game_cache)
-    emit('messages', perform_read_messages())
+    while(True):
+        emit('server_info', get_servers_info())
+        emit('messages', perform_read_messages())
+        socketio.sleep(3)
+
 
 @socketio.on('disconnect')
 def ws_disconnected():
     print('Client disconnected')
 
 
-def get_server_info():
-    while (True):
-        global game_cache
-        new_game_cache = [build_info_object(game_server) for game_server in conf['game_servers']]
-        if new_game_cache != game_cache:
-            game_cache = new_game_cache
-            socketio.emit('server_info', game_cache)
-            print('hello', file=sys.stdout)
-        socketio.sleep(3)
+def get_servers_info():
+    server_infos = [build_payload(server) for server in conf['servers']]
+    return server_infos
 
-def get_status_messages():
-    while (True):
-        socketio.sleep(3)
-
-def build_info_object(game_server):
-    server_info = perform_gamedig(game_server['server_instance'])
-    server_info['game'] = game_server['game']
-    # server_info['join_uri'] = game_server['server_instance']['join_uri']
-    return server_info
+def build_payload(game_server):
+    """
+    Takes a game_server config dict, retrieves the server and game info
+    Combines and returns an API payload as a dict 
+    """
+    info = {}
+    info['server'] = server_workers[game_server['addr']].info
+    info['game'] = next((game for game in conf['games'] if game['slug_name'] == game_server['game']), None)
+    return info
 
 def perform_gamedig(server):
     gamedig_id = server['gamedig_id']
@@ -145,7 +145,9 @@ def perform_clear_messages():
     perform_write_messages([])
 
 if __name__ == '__main__':
-    bg_info_thread = socketio.start_background_task(target=get_server_info)
+    server_workers = {server['addr']:GameServer(server) for server in conf['servers']}
+    for server_addr, worker_object in server_workers.items():
+        server_worker_thread = socketio.start_background_task(target=worker_object.work)
+    # bg_info_thread = socketio.start_background_task(target=get_server_info)
 
     socketio.run(app, debug=True)
-
