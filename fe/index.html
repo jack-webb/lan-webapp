@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+
+  <link id="dark-bulma" rel="stylesheet" href="https://unpkg.com/bulmaswatch/cyborg/bulmaswatch.min.css">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" type="text/css" href="css/tooltip.css">
+
+</head>
+
+<body>
+
+  <section class="section">
+    <div class="container is-fluid">
+      <h1 class="title is-1">Game Servers</h1>
+      <div id="game-boxes" class="columns is-multiline is-desktop"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-fluid">
+      <h1 class="title is-1">Status Messages</h1>
+      <div class="tile is-ancestor">
+        <div id="status-messages" class="tile is-vertical"> </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
+  <script src="https://unpkg.com/popper.js"></script>
+  <script src="https://unpkg.com/tooltip.js"></script>
+  <script src="js/tmpl.min.js"></script>
+  <script src="js/toast.js"></script>
+
+  <script type="text/javascript" src="js/main.js"></script>
+
+  <!-- Templates -->
+  <script type="text/x-tmpl" id="tmpl-game-box">
+    <div class="box">
+
+
+
+  <div class="content">
+          {% if (o.error) { %}
+          error
+                    {% } else { %}
+
+
+    <h4 class="title">{%=o.game.name%}</h4>
+{% if (o.name) { %}
+    <h6 class="subtitle">{%=o.name%}</h6>
+{% } else { %}
+    <h6 class="subtitle"><i>Server name not provided.</i></h6>
+{% } %}
+    <img class="game-icon" src="{%=o.game.icon_url%}">
+    <table class="table">
+      <tbody>
+        <tr>
+          <th>Players</th>
+          <td>{%=o.players.length%}/{%=o.maxplayers%}</td>
+        </tr>
+        <tr>
+          <th>Map</th>
+          <td>{%=o.map%}</td>
+        </tr>
+        <tr>
+          <th>Connect</th>
+          <td>{%=o.connect%} 
+            <span onclick='bulmaToast.toast({ message: "Copied {%=o.connect%} to clipboard", type: "is-success", position: "top-center", duration: 2500, animate: { in: "fadeInDown", out: "fadeOutUp" } })' style="cursor:pointer" data-clipboard-text="{%=o.connect%}" class="icon has-text-link copy-connection tooltip" data-tooltip="Copy IP to clipboard"> 
+            <i class="fas fa-clipboard"></i></span>
+          </td>
+        </tr>
+        <tr>
+          <th>Ping</th>
+          <td>{%=o.ping%}ms</td>
+        </tr>
+      </tbody>
+    </table>
+              {% } %}
+
+
+{% if (o.game.steam_db) { %}
+  <a class="button is-fullwidth is-dark is-link" href="{%=o.game.steam_db%}">
+  	<span class="icon"><i class="fas fa-database"></i></span>
+  	<span>Info on SteamDB</span>
+  </a>
+{% } else { %}
+  <a disabled class="button is-fullwidth">No SteamDB available </a>
+{% } %}
+
+  </div>
+</div>
+</script>
+
+  <script type="text/x-tmpl" id="tmpl-status-message">
+  <article class="tile is-child notification {%=o.css%}">
+    <p class="title">{%=o.title%}</p>
+    <p class="subtitle">{%#o.subtitle%}</p>
+  </article>
+</script>
+
+</body>
+
+</html>

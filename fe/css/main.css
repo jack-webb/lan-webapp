@@ -1,0 +1,11 @@
+.box .game-icon {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 1.25rem;
+}
+
+.box{
+	position:relative;
+}
+
