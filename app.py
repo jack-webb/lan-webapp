@@ -50,9 +50,10 @@ def build_info_object(game_server):
 
 def perform_gamedig(server):
     gamedig_id = server['gamedig_id']
+    gamedig_exec = conf['gamedig_exec']
     ip = server['ip']
     dig = subprocess.check_output(
-        ['gamedig', '--maxAttempts', str(conf['maxAttempts']), '--type', gamedig_id, ip]).decode(sys.stdout.encoding)
+        [gamedig_exec, '--maxAttempts', str(conf['maxAttempts']), '--type', gamedig_id, ip]).decode(sys.stdout.encoding)
     return json.loads(dig)
 
 

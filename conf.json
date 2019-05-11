@@ -1,117 +1,111 @@
 {
   "game_servers": [
-  {
-    "game":
     {
-      "icon_url": "https://static.planetminecraft.com/files/avatar/644728.png",
-      "name": "Minecraft Survival",
-      "slug": "minecraft_survival",
-      "steam_db": null
+      "game": {
+        "icon_url": "https://static.planetminecraft.com/files/avatar/644728.png",
+        "name": "Minecraft Survival",
+        "slug": "minecraft_survival",
+        "steam_db": null
+      },
+      "server_instance": {
+        "gamedig_id": "minecraft",
+        "ip": "hub.bmc.gg"
+      }
     },
-    "server_instance":
     {
-      "gamedig_id": "minecraft",
-      "ip": "hub.bmc.gg"
-    }
-  },
-  {
-    "game":
-    {
-      "icon_url": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/440/e3f595a92552da3d664ad00277fad2107345f743.jpg",
-      "name": "Team Fortress 2",
-      "slug": "tf2",
-      "steam_db": "https://steamdb.info/app/440/info/"
+      "game": {
+        "icon_url": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/440/e3f595a92552da3d664ad00277fad2107345f743.jpg",
+        "name": "Team Fortress 2",
+        "slug": "tf2",
+        "steam_db": "https://steamdb.info/app/440/info/"
+      },
+      "server_instance": {
+        "gamedig_id": "tf2",
+        "ip": "93.186.198.123:28115"
+      }
     },
-    "server_instance":
     {
-      "gamedig_id": "tf2",
-      "ip": "93.186.198.123:28115"
-    }
-  },{
-    "game":
-    {
-      "icon_url": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/440/e3f595a92552da3d664ad00277fad2107345f743.jpg",
-      "name": "Team Fortress 2",
-      "slug": "tf2",
-      "steam_db": "https://steamdb.info/app/440/info/"
+      "game": {
+        "icon_url": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/440/e3f595a92552da3d664ad00277fad2107345f743.jpg",
+        "name": "Team Fortress 2",
+        "slug": "tf2",
+        "steam_db": "https://steamdb.info/app/440/info/"
+      },
+      "server_instance": {
+        "gamedig_id": "tf2",
+        "ip": "151.80.218.90:27015",
+        "join_uri": "steam://connect/31.186.251.170:27015"
+      }
     },
-    "server_instance":
     {
-      "gamedig_id": "tf2",
-      "ip": "151.80.218.90:27015",
-      "join_uri": "steam://connect/31.186.251.170:27015"
-    }
-  },{
-    "game":
-    {
-      "icon_url": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/440/e3f595a92552da3d664ad00277fad2107345f743.jpg",
-      "name": "Team Fortress 2",
-      "slug": "tf2",
-      "steam_db": "https://steamdb.info/app/440/info/"
+      "game": {
+        "icon_url": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/440/e3f595a92552da3d664ad00277fad2107345f743.jpg",
+        "name": "Team Fortress 2",
+        "slug": "tf2",
+        "steam_db": "https://steamdb.info/app/440/info/"
+      },
+      "server_instance": {
+        "gamedig_id": "tf2",
+        "ip": "31.186.251.170:27015",
+        "join_uri": "steam://connect/31.186.251.170:27015"
+      }
     },
-    "server_instance":
     {
-      "gamedig_id": "tf2",
-      "ip": "31.186.251.170:27015",
-      "join_uri": "steam://connect/31.186.251.170:27015"
-    }
-  },{
-    "game":
-    {
-      "icon_url": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/440/e3f595a92552da3d664ad00277fad2107345f743.jpg",
-      "name": "Team Fortress 2",
-      "slug": "tf2",
-      "steam_db": "https://steamdb.info/app/440/info/"
+      "game": {
+        "icon_url": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/440/e3f595a92552da3d664ad00277fad2107345f743.jpg",
+        "name": "Team Fortress 2",
+        "slug": "tf2",
+        "steam_db": "https://steamdb.info/app/440/info/"
+      },
+      "server_instance": {
+        "gamedig_id": "tf2",
+        "ip": "95.172.92.47:27015",
+        "join_uri": "steam://connect/95.172.92.47:27015"
+      }
     },
-    "server_instance":
     {
-      "gamedig_id": "tf2",
-      "ip": "95.172.92.47:27015",
-      "join_uri": "steam://connect/95.172.92.47:27015"
+      "game": {
+        "icon_url": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/730/69f7ebe2735c366c65c0b33dae00e12dc40edbe4.jpg",
+        "name": "Counter-Strike: Global Offensive",
+        "slug": "csgo",
+        "steam_db": "https://steamdb.info/app/730/info/"
+      },
+      "server_instance": {
+        "gamedig_id": "csgo",
+        "ip": "46.174.54.231:27015",
+        "join_uri": "steam://connect/46.174.54.231:27015"
+      }
     }
-  },
-  {
-    "game":
-    {
-      "icon_url": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/apps/730/69f7ebe2735c366c65c0b33dae00e12dc40edbe4.jpg",
-      "name": "Counter-Strike: Global Offensive",
-      "slug": "csgo",
-      "steam_db": "https://steamdb.info/app/730/info/"
-    },
-    "server_instance":
-    {
-      "gamedig_id": "csgo",
-      "ip": "46.174.54.231:27015",
-      "join_uri": "steam://connect/46.174.54.231:27015"
-    }
-  }],
+  ],
   "maxAttempts": 2,
   "ttl": 8,
   "statusMessages": [
-  {
-    "title": "Pizza",
-    "subtitle": "Some <i>example</i> message <a>subtitle</a> stuff",
-    "css": "is-info"
-  },
-  {
-    "title": "I put the fire out",
-    "subtitle": "Resolved at 16:40",
-    "css": "is-success"
-  },
-  {
-    "title": "I am getting a fire extinguisher",
-    "subtitle": "In Progress at 16:39",
-    "css": "is-warning"
-  },
-  {
-    "title": "Something went wrong and the server is offline",
-    "subtitle": "I think it is on fire right now",
-    "css": "is-danger"
-  },
-{
-    "title": "LAN Party Information",
-    "subtitle": "<ul><li>- Something you need to know</li><li>- Some more information</li></ul>",
-    "css": "is-light"
-  }],
-  "redis_url": "redis://"
+    {
+      "title": "Pizza",
+      "subtitle": "Some <i>example</i> message <a>subtitle</a> stuff",
+      "css": "is-info"
+    },
+    {
+      "title": "I put the fire out",
+      "subtitle": "Resolved at 16:40",
+      "css": "is-success"
+    },
+    {
+      "title": "I am getting a fire extinguisher",
+      "subtitle": "In Progress at 16:39",
+      "css": "is-warning"
+    },
+    {
+      "title": "Something went wrong and the server is offline",
+      "subtitle": "I think it is on fire right now",
+      "css": "is-danger"
+    },
+    {
+      "title": "LAN Party Information",
+      "subtitle": "<ul><li>- Something you need to know</li><li>- Some more information</li></ul>",
+      "css": "is-light"
+    }
+  ],
+  "redis_url": "redis://",
+  "gamedig_exec": "gamedig"
 }
