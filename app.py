@@ -137,7 +137,7 @@ def perform_add_message(msg):
 
     # add message to the existing messages
     messages = perform_read_messages()
-    messages.append(msg)
+    messages.insert(0, msg) # prepend so new ones show at the top
     perform_write_messages(messages)
     socketio.emit('message-notify', msg) 
 
