@@ -15,7 +15,7 @@ messages_cache = None
 
 app = Flask(__name__)
 socketio = SocketIO(app)
-messages_filename = os.path.join(os.path.dirname(__file__), "messages.json")
+messages_filename = os.path.join(os.path.dirname(__file__), 'messages.json')
 
 with open('conf.json') as json_data_file:
     conf = json.load(json_data_file)
@@ -115,24 +115,36 @@ def build_info_object(game_server):
     gamedig_response = perform_gamedig(game_server['server_instance'])
     game_info = game_server['game']
 
+    # Error payload
+    if gamedig_response.get('error'):
+        payload = {
+            'error': gamedig_response['error'],
+            'game': {
+                'name': game_info['name'],
+                'iconUrl': game_info['icon_url'],
+                'steamDbUrl': game_info['steam_db_url']
+            }
+        }
+        return payload
+
     # Minecraft: display MOTD in place of server name
-    if game_info['slug'] == 'minecraft':
+    if gamedig_response and game_info['slug'] == 'minecraft':
         gamedig_response['name'] = gamedig_response['raw']['description']['text']
 
     payload = {
         'game': {
-            "name": game_info['name'],
-            "iconUrl": game_info['icon_url'],
-            "steamDbUrl": game_info['steam_db_url']
+            'name': game_info['name'],
+            'iconUrl': game_info['icon_url'],
+            'steamDbUrl': game_info['steam_db_url']
         },
         'server': {
-            "name": gamedig_response['name'],
-            "map": gamedig_response['map'],
-            "numPlayers": len(gamedig_response['players']),
-            "maxPlayers": gamedig_response['maxplayers'],
-            "ping": gamedig_response['ping'],
-            "connectionUrl": gamedig_response['connect'],
-            "raw": gamedig_response['raw']
+            'name': gamedig_response['name'],
+            'map': gamedig_response['map'],
+            'numPlayers': len(gamedig_response['players']),
+            'maxPlayers': gamedig_response['maxplayers'],
+            'ping': gamedig_response['ping'],
+            'connectionUrl': gamedig_response['connect'],
+            'raw': gamedig_response['raw']
         },
     }
 

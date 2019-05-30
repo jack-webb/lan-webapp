@@ -7,13 +7,13 @@ window.onload = function() {
     setTheme();
 
     socket.on('server_info', function(data) {
-        clearGameCards(gameCardsParent)
-        buildGameCards(gameCardsParent, data)
+        clearGameCards(gameCardsParent);
+        buildGameCards(gameCardsParent, data);
     });
 
     socket.on('messages', function(data) {
-        clearStatusMessages(statusMessagesParent)
-        buildStatusMessages(statusMessagesParent, data)
+        clearStatusMessages(statusMessagesParent);
+        buildStatusMessages(statusMessagesParent, data);
     });
 
     socket.on('message-notify', function(notification) {
@@ -23,13 +23,14 @@ window.onload = function() {
     });
 
     socket.on('connect', function() {
+        setDisconnectedBanner(false);
     });
 
     socket.on('disconnect', function() {
-        bulmaToast.toast({ message: "Disconnected from monitoring server", type: "is-danger", position: "top-center", duration: 2500, animate: { in: "fadeInDown", out: "fadeOutUp" } })
+        setDisconnectedBanner(true);
     });
 
-}
+};
 
 function buildGameCards(parentNode, serverDataList) {
     // todo compile this only once? even if its only on pageload
@@ -41,6 +42,11 @@ function buildGameCards(parentNode, serverDataList) {
     if (sp) sp.parentNode.removeChild(sp);
 
     serverDataList.forEach(function(data) {
+        if (data.error) {
+          console.warn(`Could not gamedig "${data.game.name}". Card not built.`);
+          return;
+        }
+
         let render = template(data);
         let card = document.createElement("div");
         card.setAttribute("class", "column is-one-third-desktop");
@@ -66,9 +72,9 @@ function buildStatusMessages(parentNode, statusMessages) {
 
     statusMessages.forEach(function(data) {
         let render = template(data);
-        let card = document.createElement("div")
-        card.setAttribute("class", "tile is-parent is-vertical")
-        card.innerHTML = render
+        let card = document.createElement("div");
+        card.setAttribute("class", "tile is-parent is-vertical");
+        card.innerHTML = render;
         parentNode.appendChild(card);
     });
 }
@@ -91,8 +97,22 @@ function setTheme() {
         newCssLinkNode.setAttribute("rel", "stylesheet");
         newCssLinkNode.setAttribute("type", "text/css");
         newCssLinkNode.setAttribute("href", "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css");
-        document.getElementsByTagName("head").item(0).appendChild(newCssLinkNode)
+        document.getElementsByTagName("head").item(0).appendChild(newCssLinkNode);
     }
+}
+
+function toggleMessageControls() {
+    let controls = document.getElementById("message-controls");
+    controls.style.display = controls.style.display == 'none' ? 'block' : 'none';
+}
+
+function setDisconnectedBanner(show) {
+    let banner = document.getElementById("disconnected-banner");
+    banner.style.display = show ? 'block' : 'none';
+
+    // set or unset the navbar stickness
+    let docEl = document.documentElement
+    docEl.classList.toggle('has-navbar-fixed-top')
 }
 
 // request notification permission

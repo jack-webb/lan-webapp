@@ -19,10 +19,9 @@
 <body>
   <nav id="disconnected-banner" class="navbar is-fixed-top is-danger" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item">Cannot connect to server</a>
+      <a class="navbar-item">Disconnected from monitoring server</a>
     </div>
   </nav>
-
 
   <section class="section">
     <div class="container is-fluid">
@@ -44,6 +43,11 @@
 
   <section class="section">
     <div class="container is-fluid">
+
+        <a class="button" style="opacity: 0.3;" onclick="toggleMessageControls()">Toggle message controls</a>
+
+        <div id="message-controls" style="display: none;">
+
       <nav class="panel">
         <p class="panel-heading">
           Post a message
@@ -94,11 +98,7 @@
 
         </div>
       </nav>
-    </div>
-  </section>
 
-  <section class="section">
-    <div class="container is-fluid">
       <nav class="panel">
         <p class="panel-heading">
           Clear messages
@@ -120,6 +120,7 @@
 
         </div>
       </nav>
+    </div>
     </div>
   </section>
 
