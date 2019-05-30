@@ -1,73 +1,103 @@
 window.onload = function() {
-  var clipboard = new ClipboardJS('.copy-connection');
-  var url = new URL(window.location.href);
-  var theme = url.searchParams.get("theme");
-  if (theme == "light" || theme == "l") setLightTheme();
-  
-  var gameParent = document.getElementById("game-boxes");
-  var statusParent = document.getElementById("status-messages");
+    // Init
+    var clipboard = new ClipboardJS('.copy-connection');
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+    var statusMessagesParent = document.getElementById("status-messages");
+    var gameCardsParent = document.getElementById("game-cards");
+    setTheme();
 
-  var socket = io.connect('http://' + document.domain + ':' + location.port);
-
-  socket.on('server_info', function(data) {
-    clearGameStatusBoxes(gameParent)
-    buildGameStatusBoxes(gameParent, data)
-  });
-
-  socket.on('messages', function(data) {
-    clearStatusMessages(statusParent)
-    buildStatusMessages(statusParent, data)
-  });
-
-  socket.on('message-notify', function(notification) {
-    var notification = new Notification(notification.title, {
-      "body": notification.subtitle
+    socket.on('server_info', function(data) {
+        clearGameCards(gameCardsParent)
+        buildGameCards(gameCardsParent, data)
     });
-  });
+
+    socket.on('messages', function(data) {
+        clearStatusMessages(statusMessagesParent)
+        buildStatusMessages(statusMessagesParent, data)
+    });
+
+    socket.on('message-notify', function(notification) {
+        var notification = new Notification(notification.title, {
+            "body": notification.subtitle
+        });
+    });
+
+    socket.on('connect', function() {
+    });
+
+    socket.on('disconnect', function() {
+        bulmaToast.toast({ message: "Disconnected from monitoring server", type: "is-danger", position: "top-center", duration: 2500, animate: { in: "fadeInDown", out: "fadeOutUp" } })
+    });
 
 }
 
-function buildGameStatusBoxes(parentNode, data) {
-  for (var i = 0; i < data.length; i++) {
-    console.log(data[i])
-    gameInfo = document.createElement("div")
-    gameInfo.setAttribute("class", "column is-one-third-desktop")
-    gameInfo.innerHTML = tmpl("tmpl-game-box", data[i])
-    parentNode.appendChild(gameInfo);
-  }
+function buildGameCards(parentNode, serverDataList) {
+    // todo compile this only once? even if its only on pageload
+    let templateSource = document.getElementById("template-server-card").innerHTML;
+    let template = Handlebars.compile(templateSource);
+
+    // Bye bye loading spinner
+    let sp = document.getElementById("game-cards-spinner");
+    if (sp) sp.parentNode.removeChild(sp);
+
+    serverDataList.forEach(function(data) {
+        let render = template(data);
+        let card = document.createElement("div");
+        card.setAttribute("class", "column is-one-third-desktop");
+        card.innerHTML = render;
+        parentNode.appendChild(card);
+    });
 }
 
-function clearGameStatusBoxes(parentNode) {
-  while (parentNode.firstChild) {
-    parentNode.removeChild(parentNode.firstChild);
-  }
+function clearGameCards(parentNode) {
+    while (parentNode.firstChild) {
+        parentNode.removeChild(parentNode.firstChild);
+    }
 }
 
-function buildStatusMessages(parentNode, data) {
-  for (var i = 0; i < data.length; i++) {
-    gameInfo = document.createElement("div")
-    gameInfo.setAttribute("class", "tile is-parent is-vertical")
-    gameInfo.innerHTML = tmpl("tmpl-status-message", data[i])
-    parentNode.appendChild(gameInfo);
-  }
+function buildStatusMessages(parentNode, statusMessages) {
+    // todo compile this only once? even if its only on pageload
+    let templateSource = document.getElementById("template-status-message").innerHTML;
+    let template = Handlebars.compile(templateSource);
+
+    // Bye bye loading spinner
+    let sp = document.getElementById("status-messages-spinner");
+    if (sp) sp.parentNode.removeChild(sp);
+
+    statusMessages.forEach(function(data) {
+        let render = template(data);
+        let card = document.createElement("div")
+        card.setAttribute("class", "tile is-parent is-vertical")
+        card.innerHTML = render
+        parentNode.appendChild(card);
+    });
 }
 
 function clearStatusMessages(parentNode) {
-  while (parentNode.firstChild) {
-    parentNode.removeChild(parentNode.firstChild);
-  }
+    while (parentNode.firstChild) {
+        parentNode.removeChild(parentNode.firstChild);
+    }
 }
 
-function setLightTheme() {
-  // load stock (light) bulma over the dark theme
-  // lazy, but it works (because they style the same attributes & elements)
-  var newlink = document.createElement("link");
-  newlink.setAttribute("rel", "stylesheet");
-  newlink.setAttribute("type", "text/css");
-  newlink.setAttribute("href", "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css");
-  document.getElementsByTagName("head").item(0).appendChild(newlink)
+function setTheme() {
+    // load stock (light) bulma over the drop-in dark theme. 
+    // Kinda shitty method but who tf uses light themes lmao 
+    // todo improve
+    var url = new URL(window.location.href);
+    var theme = url.searchParams.get("theme");
+    var t = url.searchParams.get("t");
+    if (theme == "light" || theme == "l" || t == "light" || t == "l") {
+        var newCssLinkNode = document.createElement("link");
+        newCssLinkNode.setAttribute("rel", "stylesheet");
+        newCssLinkNode.setAttribute("type", "text/css");
+        newCssLinkNode.setAttribute("href", "https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css");
+        document.getElementsByTagName("head").item(0).appendChild(newCssLinkNode)
+    }
 }
-// [csgo, tf2, minecraft_survival, minecraft_creative, quake_live, factorio]
 
-// request permissions for notifications
+// request notification permission
 Notification.requestPermission();
+
+
+//todo loading spinners whenever content isnt there
+//todo some notification if server dies/ws is dropped
