@@ -2,7 +2,7 @@
 <html class="has-navbar-fixed-top">
 
 <head>
-  <title></title>
+  <title>LAN Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8" />
 
@@ -36,7 +36,6 @@
       <h1 class="title is-1">Status Messages</h1> <span id="status-messages-spinner" class="loader"></span>
       <div class="tile is-ancestor">
         <div id="status-messages" class="tile is-vertical"> </div>
-        </div>
       </div>
     </div>
   </section>
@@ -126,25 +125,17 @@
 
   <!-- Templating -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
-
-  <!-- Clipboard stuff -->
-  <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
-  
+  <!-- Clipboard -->
+  <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>  
   <!-- Popovers and tooltips  -->
   <script src="https://unpkg.com/popper.js"></script>
   <script src="https://unpkg.com/tooltip.js"></script>
-  
-  <!-- <script src="js/tmpl.min.js"></script> -->
- 
   <!-- Toasts -->
   <script src="js/toast.js"></script>
   <!-- Socketio for seamless WS upgrading -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script> -->
   <script src="js/socketio.js"></script>
-
   <!-- Main JS stuff -->
-  <script type="text/javascript" src="js/main.js"></script>
-
+  <script src="js/main.js"></script>
 
   <!-- Templates -->
   <script id="template-server-card" type="text/x-handlebars-template">
@@ -209,13 +200,6 @@
     <p class="subtitle">{{{subtitle}}}</p>
   </div>
   </script>
-
- <!--  <script type="text/x-tmpl" id="tmpl-status-message">
-  <article class="tile is-child notification {%=o.css%}">
-    <p class="title">{%=o.title%}</p>
-    <p class="subtitle">{%#o.subtitle%}</p>
-  </article>
-</script> -->
 
 </body>
 

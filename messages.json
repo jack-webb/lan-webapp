@@ -1,1 +1,1 @@
-[{"title": "My Message", "subtitle": "Hello World!", "css": "is-warning"}, {"title": "Pizza", "subtitle": "Some <i>example</i> message <a>subtitle</a> stuff", "css": "is-info"}, {"title": "I put the fire out", "subtitle": "Resolved at 16:40", "css": "is-success"}, {"title": "I am getting a fire extinguisher", "subtitle": "In Progress at 16:39", "css": "is-warning"}, {"title": "Something went wrong and the server is offline", "subtitle": "I think it is on fire right now", "css": "is-danger"}]
+[{"title": "New message", "subtitle": "Some message text", "css": "is-light"}]
