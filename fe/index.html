@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html class="has-navbar-fixed-top">
 
 <head>
-  <title></title>
+  <title>LAN Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8" />
 
@@ -17,26 +17,36 @@
 </head>
 
 <body>
-
-  <section class="section">
-    <div class="container is-fluid">
-      <h1 class="title is-1">Game Servers</h1>
-      <div id="game-boxes" class="columns is-multiline is-desktop"></div>
+  <nav id="disconnected-banner" class="navbar is-fixed-top is-danger" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item">Disconnected from monitoring server</a>
     </div>
-  </section>
+  </nav>
 
   <section class="section">
     <div class="container is-fluid">
-      <h1 class="title is-1">Status Messages</h1>
-      <div class="tile is-ancestor">
-        <div id="status-messages" class="tile is-vertical"> </div>
-        </div>
+      <h1 class="title is-1">Game Servers</h1> <span id="game-cards-spinner" class="loader"></span>
+      <div id="game-cards" class="columns is-multiline is-desktop">
       </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container is-fluid">
+      <h1 class="title is-1">Status Messages</h1> <span id="status-messages-spinner" class="loader"></span>
+      <div class="tile is-ancestor">
+        <div id="status-messages" class="tile is-vertical"> </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-fluid">
+
+        <a class="button" style="opacity: 0.3;" onclick="toggleMessageControls()">Toggle message controls</a>
+
+        <div id="message-controls" style="display: none;">
+
       <nav class="panel">
         <p class="panel-heading">
           Post a message
@@ -87,11 +97,7 @@
 
         </div>
       </nav>
-    </div>
-  </section>
 
-  <section class="section">
-    <div class="container is-fluid">
       <nav class="panel">
         <p class="panel-heading">
           Clear messages
@@ -114,83 +120,86 @@
         </div>
       </nav>
     </div>
+    </div>
   </section>
 
-
-
-  <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>
+  <!-- Templating -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
+  <!-- Clipboard -->
+  <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script>  
+  <!-- Popovers and tooltips  -->
   <script src="https://unpkg.com/popper.js"></script>
   <script src="https://unpkg.com/tooltip.js"></script>
-  <script src="js/tmpl.min.js"></script>
+  <!-- Toasts -->
   <script src="js/toast.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
-
-  <script type="text/javascript" src="js/main.js"></script>
+  <!-- Socketio for seamless WS upgrading -->
+  <script src="js/socketio.js"></script>
+  <!-- Main JS stuff -->
+  <script src="js/main.js"></script>
 
   <!-- Templates -->
-  <script type="text/x-tmpl" id="tmpl-game-box">
-    <div class="box">
+  <script id="template-server-card" type="text/x-handlebars-template">
+  <div class="box">
+    <div class="content">
 
+      {{#if error}}
+        <span>error</span>
+      {{else}}
 
-
-  <div class="content">
-          {% if (o.error) { %}
-          error
-                    {% } else { %}
-
-
-    <h4 class="title">{%=o.game.name%}</h4>
-{% if (o.name) { %}
-    <h6 class="subtitle">{%=o.name%}</h6>
-{% } else { %}
-    <h6 class="subtitle"><i>Server name not provided.</i></h6>
-{% } %}
-    <img class="game-icon" src="{%=o.game.icon_url%}">
-    <table class="table">
-      <tbody>
-        <tr>
-          <th>Players</th>
-          <td>{%=o.players.length%}/{%=o.maxplayers%}</td>
-        </tr>
-        <tr>
-          <th>Map</th>
-          <td>{%=o.map%}</td>
-        </tr>
-        <tr>
-          <th>Connect</th>
-          <td>{%=o.connect%} 
-            <span onclick='bulmaToast.toast({ message: "Copied {%=o.connect%} to clipboard", type: "is-success", position: "top-center", duration: 2500, animate: { in: "fadeInDown", out: "fadeOutUp" } })' style="cursor:pointer" data-clipboard-text="{%=o.connect%}" class="icon has-text-link copy-connection tooltip" data-tooltip="Copy IP to clipboard"> 
-            <i class="fas fa-clipboard"></i></span>
-          </td>
-        </tr>
-        <tr>
-          <th>Ping</th>
-          <td>{%=o.ping%}ms</td>
-        </tr>
-      </tbody>
-    </table>
-              {% } %}
-
-
-{% if (o.game.steam_db) { %}
-  <a class="button is-fullwidth is-dark is-link" href="{%=o.game.steam_db%}">
-  	<span class="icon"><i class="fas fa-database"></i></span>
-  	<span>Info on SteamDB</span>
-  </a>
-{% } else { %}
-  <a disabled class="button is-fullwidth">No SteamDB available </a>
-{% } %}
-
+        <h4 class="title">{{game.name}}</h4>
+        {{#if server.name}}
+          <h6 class="subtitle">{{server.name}}</h6>
+        {{else}}
+          <h6 class="subtitle"><i>Server name unavailable</i></h6>
+        {{/if}}
+        <img class="game-icon" src="{{game.iconUrl}}">
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Players</th>
+              <td>{{server.numPlayers}}/{{server.maxPlayers}}</td>
+            </tr>
+            <tr>
+              <th>Map</th>
+              {{#if server.map}}
+                <td>{{server.map}}</td>
+              {{else}}
+                <td><i>Unavailable</i></td>
+              {{/if}}
+            </tr>
+            <tr>
+              <th>Connect</th>
+              <td>{{server.connectionUrl}} 
+                <span onclick='bulmaToast.toast({ message: "Copied {{server.connectionUrl}} to clipboard", type: "is-success", position: "top-center", duration: 2500, animate: { in: "fadeInDown", out: "fadeOutUp" } })' style="cursor:pointer" data-clipboard-text="{{server.connectionUrl}}" class="icon has-text-link copy-connection tooltip" data-tooltip="Copy IP to clipboard"> 
+                <i class="fas fa-clipboard"></i></span>
+              </td>
+            </tr>
+            <tr>
+              <th>Ping</th>
+              <td>{{server.ping}}ms</td>
+            </tr>
+          </tbody>
+        </table>
+      {{/if}}
+      
+      {{#if game.steamDbUrl}}
+        <a class="button is-fullwidth is-dark is-link" href="{{game.steamDbUrl}}">
+          <span class="icon"><i class="fas fa-database"></i></span>
+          <span>Info on SteamDB</span>
+        </a>
+      {{else}}
+        <a disabled class="button is-fullwidth">No SteamDB available </a>
+      {{/if}}
+    </div>
   </div>
-</div>
-</script>
+  </script>
 
-  <script type="text/x-tmpl" id="tmpl-status-message">
-  <article class="tile is-child notification {%=o.css%}">
-    <p class="title">{%=o.title%}</p>
-    <p class="subtitle">{%#o.subtitle%}</p>
-  </article>
-</script>
+  <script id="template-status-message" type="text/x-handlebars-template">
+  <div class="title is-child notification {{css}}">
+    <p class="title">{{title}}</p>
+    <p class="subtitle">{{{subtitle}}}</p>
+  </div>
+  </script>
 
 </body>
 

@@ -9,3 +9,18 @@
 	position:relative;
 }
 
+/* Navbar centre for our dc banner */
+.navbar {
+	min-height: auto;
+}
+.navbar .navbar-brand {
+  min-height: auto;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+.navbar .navbar-brand > .navbar-item,
+.navbar .navbar-brand .navbar-link {
+  display: inline-block;
+}
