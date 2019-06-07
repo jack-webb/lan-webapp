@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, send_from_directory, request, redirect, make_response
+from flask import Flask, jsonify, send_from_directory, request, redirect
 from flask_socketio import SocketIO, emit
 import subprocess
 import sys
@@ -39,45 +39,46 @@ def send_css(path):
 @app.route('/status/post', methods=['POST'])
 def post_status_message():
     try:
-        password = request.form['password']
+        passw = request.form['password']
         title = request.form['title']
         subtitle = request.form['subtitle']
         css = request.form['css']
-    except Exception:     # InvalidKeyError when an input is missing
+    except:     # InvalidKeyError when an input is missing
         print("Bad request")
         return redirect("/")
 
-    css_whitelist = ["is-info", "is-success", "is-warning", "is-danger", "is-light"]
+    css_whitelist = ["is-info", "is-success",
+                     "is-warning", "is-danger", "is-light"]
     if css not in css_whitelist:
         print("Bad request")
-        return make_response(redirect("/"), 400)
+        return redirect("/")
 
-    if password != conf["password"]:
+    if passw != conf["password"]:
         print("Bad password")
-        return make_response(redirect("/"), 401)
+        return redirect("/")
 
     perform_add_message({
         "title": title,
         "subtitle": subtitle,
         "css": css,
     })
-    return make_response(redirect("/"), 200)  # Kinda 201 but no ref?
+    return redirect("/")
 
 
 @app.route('/status/clear', methods=['POST'])
 def clear_status_messages():
     try:
-        password = request.form['password']
+        passw = request.form['password']
     except Exception:     # InvalidKeyError when an input is missing
         print("Bad request")
-        return make_response(redirect("/"), 400)
+        return redirect("/")
 
-    if password != conf["password"]:
+    if passw != conf["password"]:
         print("Bad password")
-        return make_response(redirect("/"), 401)
+        return redirect("/")
 
     perform_clear_messages()
-    return make_response(redirect("/"), 200)
+    return redirect("/")
 
 
 @socketio.on('connect')
