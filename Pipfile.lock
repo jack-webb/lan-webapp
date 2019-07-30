@@ -96,10 +96,11 @@
         },
         "python-engineio": {
             "hashes": [
-                "sha256:a89d2cff7f9b447d37c450c2666101d97043b4b22524bf4efaafcb9784c9f7f4",
-                "sha256:fd14357f0b854de729cc2dba960ceba1d20da973c91f289110807f0bb2f69935"
+                "sha256:4850c3e04b2040e4fd262d1047797473d1815b37a073807e7b80304c1c5f4848",
+                "sha256:89b90ee3816ed440c68ac7b6143244ae7d56a46a49295fbac8e6696482e596d1"
             ],
-            "version": "==3.5.1"
+            "index": "pypi",
+            "version": "==3.8.2.post1"
         },
         "python-socketio": {
             "hashes": [
@@ -110,10 +111,10 @@
         },
         "redis": {
             "hashes": [
-                "sha256:6946b5dca72e86103edc8033019cc3814c031232d339d5f4533b02ea85685175",
-                "sha256:8ca418d2ddca1b1a850afa1680a7d2fd1f3322739271de4b704e0d4668449273"
+                "sha256:1835d67bef5590047d9cf766e9191ecbc9ab4556a41d3f7f52f60f7338a2b60b",
+                "sha256:82a982a17e7f5fc3b6d55a712e3ef35f6927fbcb27c2677bda2ab235d3425932"
             ],
-            "version": "==3.2.1"
+            "version": "==3.3.3"
         },
         "rq": {
             "hashes": [
@@ -131,10 +132,10 @@
         },
         "werkzeug": {
             "hashes": [
-                "sha256:0a73e8bb2ff2feecfc5d56e6f458f5b99290ef34f565ffb2665801ff7de6af7a",
-                "sha256:7fad9770a8778f9576693f0cc29c7dcc36964df916b83734f4431c0e612a7fbc"
+                "sha256:87ae4e5b5366da2347eb3116c0e6c681a0e939a33b2805e2c0cbd282664932c4",
+                "sha256:a13b74dd3c45f758d4ebdb224be8f1ab8ef58b3c0ffc1783a8c7d9f4f50227e6"
             ],
-            "version": "==0.15.2"
+            "version": "==0.15.5"
         }
     },
     "develop": {}
