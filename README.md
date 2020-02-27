@@ -9,7 +9,7 @@ Run with `pipenv install` then `pipenv run python -m app`
 - Messages can be published to `/status/post` and cleared by POSTing to `/status/clear` 
 - Serves webapp that uses this API to show information
 
-The Frontend is mostly okay, but could use refactoring. Backend works (and is surprisingly reliable), but is messy and is still missing features.
+The Frontend is mostly okay, but could use refactoring. Backend works, but is messy and is still missing features.
 
 #### Desktop
 ![Desktop View](https://i.jaffa.pw/qemkRB7.png)
